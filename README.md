@@ -99,3 +99,26 @@ PASS
 ok      _/Users/andre/Documents/Code/golang/go-multiply/src     0.006s
 ```
 
+
+Alright, so the naive solution is implemented. Can we do better?
+
+The Computer Scientist in me thinks we can try to use Bit twiddling and figure out a solution.
+
+Let's first create a new function, MultiplyBitwise and add a failing test.
+```
+func MultiplyBitwise(a,b int) (product int) {
+		return 41
+}
+```
+
+```
+func TestMultiplyBitwise(t *testing.T) {
+		result := MultiplyBitwise(6,7)
+
+		if result != 42 {
+			t.Errorf("Expected 42")
+		}
+}
+```
+
+Now that our test is in order, let's see if we can implement by taking advantage of Bitwise operators and the properties of binary numbers.
