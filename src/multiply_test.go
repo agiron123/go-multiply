@@ -2,8 +2,8 @@ package main
 
 import "testing"
 
-func TestMultiply(t *testing.T) {
-	t.Log("Testing Multiply 6 * 7")
+func TestMultiplyNaive(t *testing.T) {
+	t.Log("Testing MultiplyNaive 6 * 7")
 	result := MultiplyNaive(6, 7)
 
 	// Obligatory: https://www.youtube.com/watch?v=5ZLtcTZP2js
@@ -13,7 +13,7 @@ func TestMultiply(t *testing.T) {
 }
 
 func TestMultiplyNegativeAndNegative(t *testing.T) {
-	t.Log("Testing Multiply -6 * -7")
+	t.Log("Testing MultiplyNaive -6 * -7")
 	result := MultiplyNaive(-6, -7)
 
 	// Obligatory: https://www.youtube.com/watch?v=5ZLtcTZP2js
@@ -23,7 +23,7 @@ func TestMultiplyNegativeAndNegative(t *testing.T) {
 }
 
 func TestMultiplyNegativeAndPositive(t *testing.T) {
-	t.Log("Testing Multiply -6 * 7")
+	t.Log("Testing MultiplyNaive -6 * 7")
 	result := MultiplyNaive(-6, 7)
 
 	// Obligatory: https://www.youtube.com/watch?v=5ZLtcTZP2js
@@ -33,11 +33,19 @@ func TestMultiplyNegativeAndPositive(t *testing.T) {
 }
 
 func TestMultiplyPositiveAndNegative(t *testing.T) {
-	t.Log("Testing Multiply 6 * -7")
+	t.Log("Testing MultiplyNaive 6 * -7")
 	result := MultiplyNaive(6, -7)
 
 	// Obligatory: https://www.youtube.com/watch?v=5ZLtcTZP2js
 	if result != -42 {
 		t.Errorf("Expected -42")
 	}
+}
+
+func TestMultiplyBitwise(t *testing.T) {
+		result := MultiplyBitwise(6,7)
+
+		if result != 42 {
+			t.Errorf("Expected 42")
+		}
 }

@@ -5,6 +5,10 @@ package main
 
 import "fmt"
 
+func MultiplyBitwise(a,b int) (product int) {
+		return 41
+}
+
 func MultiplyNaive(a, b int) (product int) {
 	// First, check the signs of a and b.
 	isPositive := true
