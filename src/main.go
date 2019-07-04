@@ -4,8 +4,16 @@
 package main
 
 import "fmt"
+import "log"
+import "time"
+
+func timeTrack(start time.Time, name string) {
+	elapsed := time.Since(start)
+	log.Printf("%s took %dns", name, elapsed.Nanoseconds())
+}
 
 func MultiplyBitwise(a, b int) (product int) {
+		defer timeTrack(time.Now(), "MultiplyBitwise")
 		result := 0
 		isPositive := true
 		if (a < 0 && b > 0) || (a > 0 && b < 0) { // Result is going to be negative
@@ -44,6 +52,7 @@ func MultiplyBitwise(a, b int) (product int) {
 }
 
 func MultiplyNaive(a, b int) (product int) {
+	defer timeTrack(time.Now(), "MultiplyNaive")
 	// First, check the signs of a and b.
 	isPositive := true
 	if (a < 0 && b > 0) || (a > 0 && b < 0) { // Result is going to be negative
