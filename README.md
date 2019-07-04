@@ -232,6 +232,62 @@ PASS
 ok      _/Users/andre/Documents/Code/golang/go-multiply/src     0.007s
 ```
 
+Let's find out which solution is faster and if there are any advantages to using the Russian Peasant method over using the naive solution.
+
+To measure how long our code takes to run, we can take advantage of golang's defer keyword.
+This article here shows us how we can set up our code for profiling:
+
+https://coderwall.com/p/cp5fya/measuring-execution-time-in-go
+
+After adding in and implementing the profiling code, we can now run our tests to see which method is the fastest.
+
+```
+➜  src git:(master) ✗ go test -v
+=== RUN   TestMultiplyNaivePositiveAndPositive
+2019/07/03 20:56:33 MultiplyNaive took 504ns
+--- PASS: TestMultiplyNaivePositiveAndPositive (0.00s)
+        multiply_test.go:6: Testing MultiplyNaive 6 * 7
+=== RUN   TestMultiplyNaiveNegativeAndNegative
+2019/07/03 20:56:33 MultiplyNaive took 214ns
+--- PASS: TestMultiplyNaiveNegativeAndNegative (0.00s)
+        multiply_test.go:16: Testing MultiplyNaive -6 * -7
+=== RUN   TestMultiplyNaiveNegativeAndPositive
+2019/07/03 20:56:33 MultiplyNaive took 154ns
+--- PASS: TestMultiplyNaiveNegativeAndPositive (0.00s)
+        multiply_test.go:25: Testing MultiplyNaive -6 * 7
+=== RUN   TestMultiplyNaivePositiveAndNegative
+2019/07/03 20:56:33 MultiplyNaive took 135ns
+--- PASS: TestMultiplyNaivePositiveAndNegative (0.00s)
+        multiply_test.go:34: Testing MultiplyNaive 6 * -7
+=== RUN   TestMultiplyBitwisePositiveAndPositive
+2019/07/03 20:56:33 MultiplyBitwise took 178ns
+--- PASS: TestMultiplyBitwisePositiveAndPositive (0.00s)
+        multiply_test.go:44: Testing MultiplyBitwise 6 * 7
+=== RUN   TestMultiplyBitwiseNegativeAndNegative
+2019/07/03 20:56:33 MultiplyBitwise took 150ns
+--- PASS: TestMultiplyBitwiseNegativeAndNegative (0.00s)
+        multiply_test.go:53: Testing MultiplyBitwise -6 * -7
+=== RUN   TestMultiplyBitwiseNegativeAndPositive
+2019/07/03 20:56:33 MultiplyBitwise took 209ns
+--- PASS: TestMultiplyBitwiseNegativeAndPositive (0.00s)
+        multiply_test.go:62: Testing MultiplyBitwise -6 * 7
+=== RUN   TestMultiplyBitwisePositiveAndNegative
+2019/07/03 20:56:33 MultiplyBitwise took 129ns
+--- PASS: TestMultiplyBitwisePositiveAndNegative (0.00s)
+        multiply_test.go:71: Testing MultiplyBitwise 6 * -7
+PASS
+ok      _/Users/andre/Documents/Code/golang/go-multiply/src     0.007s
+```
+
+The results above are from just one test run, but we can see that both methods of solving the problem are neck and neck in terms of execution time.
+
+There is one outlier, which is the 504 nanosecond run of the first function under test. I suspect this is largely due to golang starting up it's testing engine for us to run against.
+
+Which function wins?
+
+Both MultiplyNaive and MultiplyBitwise accomplish the same task. They even run in about the same time. To me, the clear winner is MultiplyNaive. The code is simple and easy to understand. MultiplyBitwise is clever, yet the code is harder to reason about. In the future, if I or one of my team mates were to have to come back and maintain this code, MultiplyNaive would be much easier to change.
+
+Just like with many problems in Computer Science and Software Engineering, there are many ways to solve a problem. Sometimes the simple solutions are the best :)
 
 
 
