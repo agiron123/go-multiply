@@ -122,3 +122,116 @@ func TestMultiplyBitwise(t *testing.T) {
 ```
 
 Now that our test is in order, let's see if we can implement by taking advantage of Bitwise operators and the properties of binary numbers.
+
+After much time spent scratching my head and writing down 0's and 1's on paper, I eventually realized that I could use the properties of binary numbers and bitwise operations to get to a solution.
+
+I wrote down many test cases and even came across some really cool bit twiddling hacks here:
+https://graphics.stanford.edu/~seander/bithacks.html
+
+After trying out various techniques and moving bits to the left and the right, I still wasn't able to get a solution that worked 100% of the time. I was close, very close.
+
+Eventually my wandering eyes got the best of me, and I came across a technique to solve this problem online called the Russian Peasant problem. 
+
+https://www.geeksforgeeks.org/russian-peasant-multiply-two-numbers-using-bitwise-operators/
+
+I can't unsee this, so we'll use the Russian Peasant Technique to solve the problem and then have a bake off between this and the naive solution. 
+
+As I've been learning golang, we'll use the native profiling methods to help us figure out which technique is the fastest.
+
+First, let's talk about the Russian Peasant problem and how it works:
+
+Russian Peasant Method Pseudocode from Geeks for Geeks:
+```
+Let the two given numbers be 'a' and 'b'
+1) Initialize result 'res' as 0.
+2) Do following while 'b' is greater than 0
+   a) If 'b' is odd, add 'a' to 'res'
+   b) Double 'a' and halve 'b'
+3) Return 'res'. 
+```
+
+Let's try using our example of 6 * 7, which is 42!
+
+
+```
+Initial condition: a = 6, b = 7, result = 0
+
+a               b               result (base 10)
+0000 0110       0000 0111       0
+
+Iteration 1:
+Step 1:
+b is > 0 and b is odd, so we will add a to result (6 + 0)
+
+a               b               result (base 10)
+0000 0110       0000 0111       (6)
+
+Step 2:
+double a which can be accomplished by left shifting a by 1 or mulitplying by 2
+
+a               b               result (base 10)
+0000 1100       0000 0111       (6)
+
+Step 3:
+half b which can be accomplished by right shifting b by 1 or dividing by 2
+
+a               b               result (base 10)
+0000 1100       0000 0011       (6)
+
+Iteration 2:
+Step 1:
+b is still > 0 and b is also odd, so add a to result (12 + 6)
+
+a               b               result (base 10)
+0000 1100       0000 0011       (18)
+
+Step 2:
+double a
+a               b               result (base 10)
+0001 1000       0000 0011       (18)
+
+Step 3:
+half b
+a               b               result (base 10)
+0001 1000       0000 0001       (18)
+
+Iteration 3:
+Step 1:
+b is still > 0 and b is also odd, so add a to result (24 + 18)
+a               b               result (base 10)
+0001 1000       0000 0001       (42)
+
+Step 2:
+double a
+a               b               result (base 10)
+0011 1000       0000 0001       (42)
+
+Step 3:
+half b
+a               b               result (base 10)
+0011 1000       0000 0000       (42)
+
+Finally the loop terminates since b is 0.
+
+Now we return the secret of the universe, the great question of life and everything:
+42
+
+```
+
+Forty Two!!!
+
+
+https://www.youtube.com/watch?v=5ZLtcTZP2js
+
+
+Now We'll update the tests and add test cases for negative numbers as well.
+Our test case now passes and all is well:
+```
+➜  src git:(master) ✗ go test
+PASS
+ok      _/Users/andre/Documents/Code/golang/go-multiply/src     0.007s
+```
+
+
+
+
